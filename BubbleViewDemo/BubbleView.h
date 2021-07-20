@@ -17,7 +17,7 @@ typedef struct WBRectCornerRadius {
     CGFloat bottomRight;
 } WBRectCornerRadius;
 
-
+/**Convenience method to make a WBRectCornerRadius*/
 NS_INLINE WBRectCornerRadius WBRectCornerRadiusMake(CGFloat topLeft,CGFloat topRight,CGFloat bottomLeft,CGFloat bottomRight){
     WBRectCornerRadius cornerRadius;
     cornerRadius.topLeft = topLeft;
@@ -28,14 +28,33 @@ NS_INLINE WBRectCornerRadius WBRectCornerRadiusMake(CGFloat topLeft,CGFloat topR
 }
 
 @interface BubbleView : UIControl
+/**effective area. use it to add subviews */
 @property (nonatomic, strong, readonly) UIView *contentView;
+/**path line width. default is 1.f*/
 @property (nonatomic, assign) CGFloat lineWidth;
+/**path line color*/
 @property (nonatomic, strong) UIColor *lineColor;
+/**layer path fill color*/
 @property (nonatomic, strong) UIColor *fillColor;
+/**effective content corner radius*/
 @property (nonatomic, assign) WBRectCornerRadius cornerRadius;
+/**rely which corner to display angle*/
 @property (nonatomic, assign) UIRectCorner corner;
+/**effective area size. update the contentView size if need. */
 @property (nonatomic, assign) CGSize contentSize;
+/**
+ the off point to corner.
+ 
+   /\
+ 1---->2
+ |     |
+ |     |
+ 4<----3
+ 
+ the display order is 1--->2--->3--->4
+ */
 @property (nonatomic, assign) CGPoint offPoint;
+/**the angle width. default is 15.f*/
 @property (nonatomic, assign) CGFloat angleWidth;
 
 - (instancetype)init NS_UNAVAILABLE;
@@ -45,6 +64,7 @@ NS_INLINE WBRectCornerRadius WBRectCornerRadiusMake(CGFloat topLeft,CGFloat topR
 /// @param origin origin description
 - (instancetype)initWithOrigin:(CGPoint)origin;
 
+/// should recall the method if the above properties is changed.
 - (void)draw;
 
 @end
