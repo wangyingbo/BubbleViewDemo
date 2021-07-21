@@ -73,6 +73,32 @@
     return _lineWidth;
 }
 
+#pragma mark - setter
+
+NS_INLINE void checkValid(UIRectCorner corner,CGPoint offPoint){
+    NSString *suffix = [NSString stringWithFormat:@" and its offPoint:%@ is invalid",NSStringFromCGPoint(offPoint)];
+    NSString *topLeftError = [@"UIRectCornerTopLeft" stringByAppendingString:suffix];
+    NSCAssert(!((corner&UIRectCornerTopLeft) && offPoint.x<0 && offPoint.y<0), topLeftError);
+    NSString *topRightError = [@"UIRectCornerTopRight" stringByAppendingString:suffix];
+    NSCAssert(!((corner&UIRectCornerTopRight) && offPoint.x>0 && offPoint.y<0), topRightError);
+    NSString *bottomRightError = [@"UIRectCornerBottomRight" stringByAppendingString:suffix];
+    NSCAssert(!((corner&UIRectCornerBottomRight) && offPoint.x>0 && offPoint.y>0), bottomRightError);
+    NSString *bottomLeftError = [@"UIRectCornerBottomLeft" stringByAppendingString:suffix];
+    NSCAssert(!((corner&UIRectCornerBottomLeft) && offPoint.x<0 && offPoint.y>0), bottomLeftError);
+}
+
+- (void)setCorner:(UIRectCorner)corner
+{
+    _corner = corner;
+    checkValid(corner, self.offPoint);
+}
+
+- (void)setOffPoint:(CGPoint)offPoint
+{
+    _offPoint = offPoint;
+    checkValid(self.corner, offPoint);
+}
+
 #pragma mark - private
 /// 算出当前总的size
 - (CGSize)_layoutSize
@@ -153,15 +179,19 @@
         CGFloat startPointX = 0;
         if (topLineLeft) {
             startPointX = contentX;
+            startPointX = startPointX + self.offPoint.x - self.angleWidth/2;
+            [path addLineToPoint:CGPointMake(startPointX, contentY)];
+            [path addLineToPoint:CGPointMake(startPointX+self.angleWidth/2, contentY+self.offPoint.y)];
+            [path addLineToPoint:CGPointMake(startPointX+self.angleWidth, contentY)];
             corner ^= UIRectCornerTopLeft;
         }else if (topLineRight) {
             startPointX = maxX;
+            startPointX = startPointX + self.offPoint.x - self.angleWidth/2;
+            [path addLineToPoint:CGPointMake(startPointX, contentY)];
+            [path addLineToPoint:CGPointMake(startPointX+self.angleWidth/2, contentY+self.offPoint.y)];
+            [path addLineToPoint:CGPointMake(startPointX+self.angleWidth, contentY)];
             corner ^= UIRectCornerTopRight;
         }
-        startPointX = startPointX + self.offPoint.x - self.angleWidth/2;
-        [path addLineToPoint:CGPointMake(startPointX, contentY)];
-        [path addLineToPoint:CGPointMake(startPointX+self.angleWidth/2, contentY+self.offPoint.y)];
-        [path addLineToPoint:CGPointMake(startPointX+self.angleWidth, contentY)];
     }
     [path addLineToPoint:CGPointMake(maxX-inset.topRight,contentY)];//上线
     //右
@@ -172,34 +202,42 @@
         CGFloat startPointY = 0;
         if (rightLineTop) {
             startPointY = contentY;
+            startPointY = startPointY + self.offPoint.y - self.angleWidth/2;
+            [path addLineToPoint:CGPointMake(maxX, startPointY)];
+            [path addLineToPoint:CGPointMake(maxX+self.offPoint.x, startPointY+self.angleWidth/2)];
+            [path addLineToPoint:CGPointMake(maxX, startPointY+self.angleWidth)];
             corner ^= UIRectCornerTopRight;
         }else if (rightLineBottom) {
             startPointY = maxY;
+            startPointY = startPointY + self.offPoint.y - self.angleWidth/2;
+            [path addLineToPoint:CGPointMake(maxX, startPointY)];
+            [path addLineToPoint:CGPointMake(maxX+self.offPoint.x, startPointY+self.angleWidth/2)];
+            [path addLineToPoint:CGPointMake(maxX, startPointY+self.angleWidth)];
             corner ^= UIRectCornerBottomRight;
         }
-        startPointY = startPointY + self.offPoint.y - self.angleWidth/2;
-        [path addLineToPoint:CGPointMake(maxX, startPointY)];
-        [path addLineToPoint:CGPointMake(maxX+self.offPoint.x, startPointY+self.angleWidth/2)];
-        [path addLineToPoint:CGPointMake(maxX, startPointY+self.angleWidth)];
     }
     [path addLineToPoint:CGPointMake(maxX, maxY-inset.bottomRight)];//右线
     //右下
     [path moveToPoint:CGPointMake(maxX-inset.bottomRight, maxY)];
     BOOL bottomLineLeft = (corner&UIRectCornerBottomLeft) && self.offPoint.x>0;
     BOOL bottomLineRight = (corner&UIRectCornerBottomRight) && self.offPoint.x<0;
-    if (bottomLineLeft || corner & bottomLineRight) {
+    if (bottomLineLeft || bottomLineRight) {
         CGFloat startPointX = 0;
         if (bottomLineLeft) {
-            startPointX = contentX;
+            startPointX = contentX + inset.bottomLeft+contentX;
+            startPointX = startPointX + self.offPoint.x + self.angleWidth;
+            [path addLineToPoint:CGPointMake(startPointX, maxY)];
+            [path addLineToPoint:CGPointMake(startPointX - self.angleWidth/2, maxY+self.offPoint.y)];
+            [path addLineToPoint:CGPointMake(startPointX - self.angleWidth, maxY)];
             corner ^= UIRectCornerBottomLeft;
         }else if (bottomLineRight) {
             startPointX = maxX;
+            startPointX = startPointX + self.offPoint.x;
+            [path addLineToPoint:CGPointMake(startPointX, maxY)];
+            [path addLineToPoint:CGPointMake(startPointX - self.angleWidth/2, maxY+self.offPoint.y)];
+            [path addLineToPoint:CGPointMake(startPointX - self.angleWidth, maxY)];
             corner ^= UIRectCornerBottomRight;
         }
-        startPointX = startPointX + self.offPoint.x - self.angleWidth/2;
-        [path addLineToPoint:CGPointMake(startPointX, maxY)];
-        [path addLineToPoint:CGPointMake(startPointX+self.angleWidth/2, maxY+self.offPoint.y)];
-        [path addLineToPoint:CGPointMake(startPointX+self.angleWidth, maxY)];
     }
     [path addLineToPoint:CGPointMake(inset.bottomLeft+contentX, maxY)];//下线
     //左下
@@ -209,16 +247,20 @@
     if (leftLineTop || leftLineBottom) {
         CGFloat startPointY = 0;
         if (leftLineTop) {
-            startPointY = contentY;
+            startPointY = inset.topLeft+contentY;
+            startPointY = startPointY + self.offPoint.y + self.angleWidth;
+            [path addLineToPoint:CGPointMake(contentX, startPointY)];
+            [path addLineToPoint:CGPointMake(contentX+self.offPoint.x, startPointY - self.angleWidth/2)];
+            [path addLineToPoint:CGPointMake(contentX, startPointY - self.angleWidth)];
             corner ^= UIRectCornerTopLeft;
         }else if (leftLineBottom) {
             startPointY = maxY;
+            startPointY = startPointY + self.offPoint.y;
+            [path addLineToPoint:CGPointMake(contentX, startPointY)];
+            [path addLineToPoint:CGPointMake(contentX + self.offPoint.x, startPointY - self.angleWidth/2)];
+            [path addLineToPoint:CGPointMake(contentX, startPointY - self.angleWidth)];
             corner ^= UIRectCornerBottomLeft;
         }
-        startPointY = startPointY + self.offPoint.y - self.angleWidth/2;
-        [path addLineToPoint:CGPointMake(contentX, startPointY)];
-        [path addLineToPoint:CGPointMake(contentX+self.offPoint.x, startPointY+self.angleWidth/2)];
-        [path addLineToPoint:CGPointMake(contentX, startPointY+self.angleWidth)];
     }
     [path addLineToPoint:CGPointMake(contentX, inset.topLeft+contentY)];//左线
     

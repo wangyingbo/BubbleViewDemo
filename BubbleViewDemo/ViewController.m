@@ -20,8 +20,8 @@
     
     BubbleView *bubble = [[BubbleView alloc] initWithOrigin:CGPointMake(100.f, 200.f)];
     bubble.contentSize = CGSizeMake(150, 80.f);
-    bubble.corner = UIRectCornerTopLeft;
-    bubble.offPoint = CGPointMake(50, -50);
+    bubble.corner = UIRectCornerBottomRight;
+    bubble.offPoint = CGPointMake(30, -30);
     bubble.fillColor = [UIColor clearColor];
     bubble.lineColor = [UIColor purpleColor];
     bubble.lineWidth = 1.f;

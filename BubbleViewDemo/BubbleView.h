@@ -38,10 +38,17 @@ NS_INLINE WBRectCornerRadius WBRectCornerRadiusMake(CGFloat topLeft,CGFloat topR
 @property (nonatomic, strong) UIColor *fillColor;
 /**effective content corner radius*/
 @property (nonatomic, assign) WBRectCornerRadius cornerRadius;
-/**rely which corner to display angle*/
-@property (nonatomic, assign) UIRectCorner corner;
 /**effective area size. update the contentView size if need. */
 @property (nonatomic, assign) CGSize contentSize;
+/**
+ rely which corner to display angle
+ eg:
+ UIRectCornerTopLeft    (-30, 30) or (30, -30)
+ UIRectCornerTopRight   (-30, -30) or (30, 30)
+ UIRectCornerBottomRight    (30, -30) or (-30, 30)
+ UIRectCornerBottomLeft (30, 30) or (-30, -30)
+ */
+@property (nonatomic, assign) UIRectCorner corner;
 /**
  the off point to corner.
  
