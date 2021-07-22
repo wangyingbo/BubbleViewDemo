@@ -107,10 +107,9 @@
 		0342E94326A71912000283CB /* BubbleViewDemo */ = {
 			isa = PBXGroup;
 			children = (
+				A4AC55E426A937C300977D63 /* BubbleView */,
 				0342E94426A71912000283CB /* AppDelegate.h */,
 				0342E94526A71912000283CB /* AppDelegate.m */,
-				0342E97926A71985000283CB /* BubbleView.h */,
-				0342E97A26A71985000283CB /* BubbleView.m */,
 				0342E94726A71912000283CB /* SceneDelegate.h */,
 				0342E94826A71912000283CB /* SceneDelegate.m */,
 				0342E94A26A71912000283CB /* ViewController.h */,
@@ -140,6 +139,15 @@
 				0342E96D26A71919000283CB /* Info.plist */,
 			);
 			path = BubbleViewDemoUITests;
+			sourceTree = "<group>";
+		};
+		A4AC55E426A937C300977D63 /* BubbleView */ = {
+			isa = PBXGroup;
+			children = (
+				0342E97926A71985000283CB /* BubbleView.h */,
+				0342E97A26A71985000283CB /* BubbleView.m */,
+			);
+			path = BubbleView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

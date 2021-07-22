@@ -45,17 +45,26 @@ NS_INLINE WBRectCornerRadius WBRectCornerRadiusMake(CGFloat topLeft,CGFloat topR
 @property (nonatomic, assign) WBRectCornerRadius cornerRadius;
 /**effective area size. update the contentView size if need. */
 @property (nonatomic, assign) CGSize contentSize;
+/**the angle width. default is 15.f*/
+@property (nonatomic, assign) CGFloat angleWidth;
 /**
- rely which corner to display angle
+ rely on which corner to display angle
  eg:
+ ------------------------------------------------
+        corner                 offPoint
+ ------------------------------------------------
  UIRectCornerTopLeft    (-30, 30) or (30, -30)
+ ------------------------------------------------
  UIRectCornerTopRight   (-30, -30) or (30, 30)
- UIRectCornerBottomRight    (30, -30) or (-30, 30)
+ ------------------------------------------------
+ UIRectCornerBottomRight  (30, -30) or (-30, 30)
+ ------------------------------------------------
  UIRectCornerBottomLeft (30, 30) or (-30, -30)
+ ------------------------------------------------
  */
 @property (nonatomic, assign) UIRectCorner corner;
 /**
- the off point to corner.
+ the off point to corner.it considers the corner you choose as the origin point to display.
  
    /\
  1---->2
@@ -63,16 +72,14 @@ NS_INLINE WBRectCornerRadius WBRectCornerRadiusMake(CGFloat topLeft,CGFloat topR
  |     |
  4<----3
  
- the display order is 1--->2--->3--->4
+ the path display order is 1--->2--->3--->4
  */
 @property (nonatomic, assign) CGPoint offPoint;
-/**the angle width. default is 15.f*/
-@property (nonatomic, assign) CGFloat angleWidth;
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
-/// 用origin初始化，size会根据属性算出
+/// the bubbleView's origin point.
 /// @param origin origin description
 - (instancetype)initWithOrigin:(CGPoint)origin;
 
