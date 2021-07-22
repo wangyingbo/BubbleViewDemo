@@ -26,7 +26,7 @@ use it like this:
 
 ![top](https://gitee.com/wangyingbo/PrivateImages/raw/master/2021//20210722123636.png)
 
-![right](https://gitee.com/wangyingbo/PrivateImages/raw/master/2021//20210722123808.png)
+![right](https://gitee.com/wangyingbo/PrivateImages/raw/master/2021//20210722123935.png)
 
 ![bottom](https://gitee.com/wangyingbo/PrivateImages/raw/master/2021//20210722123652.png)
 
