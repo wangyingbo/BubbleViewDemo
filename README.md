@@ -25,7 +25,11 @@ use it like this:
 ### eg:
 
 ![top](https://gitee.com/wangyingbo/PrivateImages/raw/master/2021//20210722123636.png)
-![right](https://gitee.com/wangyingbo/PrivateImages/raw/master/2021//20210722123645.png)
+
+![right](https://gitee.com/wangyingbo/PrivateImages/raw/master/2021//20210722123808.png)
+
 ![bottom](https://gitee.com/wangyingbo/PrivateImages/raw/master/2021//20210722123652.png)
+
 ![left](https://gitee.com/wangyingbo/PrivateImages/raw/master/2021//20210722123701.png)
+
 
