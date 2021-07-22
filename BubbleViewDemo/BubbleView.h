@@ -71,7 +71,8 @@ NS_INLINE WBRectCornerRadius WBRectCornerRadiusMake(CGFloat topLeft,CGFloat topR
 /// @param origin origin description
 - (instancetype)initWithOrigin:(CGPoint)origin;
 
-/// should recall the method if the above properties is changed.
+/// should recall the method if the above properties is changed. 
+/// the draw method will layout subviews, you could get the correct bubble's frame after call the draw method.
 - (void)draw;
 
 @end
