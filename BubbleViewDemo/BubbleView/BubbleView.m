@@ -103,7 +103,7 @@ NS_INLINE void checkValid(UIRectCorner corner,CGPoint offPoint){
 }
 
 #pragma mark - private
-/// 算出当前总的size
+/// all bullbleView size
 - (CGSize)_layoutSize
 {
     CGSize size = CGSizeZero;
@@ -168,10 +168,10 @@ NS_INLINE void checkValid(UIRectCorner corner,CGPoint offPoint){
     CGFloat contentX = CGRectGetMinX(contentFrame);
     CGFloat contentY = CGRectGetMinY(contentFrame);
 
-    //绘制四边线，需要把圆角空间空出
+    //draw edge, leave the corner space
     WBRectCornerRadius inset = self.cornerRadius;
     UIRectCorner corner = self.corner;
-    //左
+    //topLeft
     [path moveToPoint:CGPointMake(self.cornerRadius.topLeft+contentX,contentY)];
     BOOL topLineLeft = (corner&UIRectCornerTopLeft) && self.offPoint.x>0;
     BOOL topLineRight = (corner&UIRectCornerTopRight) && self.offPoint.x<0;
@@ -193,8 +193,8 @@ NS_INLINE void checkValid(UIRectCorner corner,CGPoint offPoint){
             corner ^= UIRectCornerTopRight;
         }
     }
-    [path addLineToPoint:CGPointMake(maxX-inset.topRight,contentY)];//上线
-    //右
+    [path addLineToPoint:CGPointMake(maxX-inset.topRight,contentY)];// top edge
+    //topRight
     [path moveToPoint:CGPointMake(maxX, inset.topRight+contentY)];
     BOOL rightLineTop = (corner&UIRectCornerTopRight) && self.offPoint.y>0;
     BOOL rightLineBottom = (corner&UIRectCornerBottomRight) && self.offPoint.y<0;
@@ -216,8 +216,8 @@ NS_INLINE void checkValid(UIRectCorner corner,CGPoint offPoint){
             corner ^= UIRectCornerBottomRight;
         }
     }
-    [path addLineToPoint:CGPointMake(maxX, maxY-inset.bottomRight)];//右线
-    //右下
+    [path addLineToPoint:CGPointMake(maxX, maxY-inset.bottomRight)];//right edge
+    //bottomRight
     [path moveToPoint:CGPointMake(maxX-inset.bottomRight, maxY)];
     BOOL bottomLineLeft = (corner&UIRectCornerBottomLeft) && self.offPoint.x>0;
     BOOL bottomLineRight = (corner&UIRectCornerBottomRight) && self.offPoint.x<0;
@@ -239,8 +239,8 @@ NS_INLINE void checkValid(UIRectCorner corner,CGPoint offPoint){
             corner ^= UIRectCornerBottomRight;
         }
     }
-    [path addLineToPoint:CGPointMake(inset.bottomLeft+contentX, maxY)];//下线
-    //左下
+    [path addLineToPoint:CGPointMake(inset.bottomLeft+contentX, maxY)];//bottom edge
+    //bottomLeft
     BOOL leftLineTop = (corner&UIRectCornerTopLeft) && self.offPoint.y>0;
     BOOL leftLineBottom = (corner&UIRectCornerBottomLeft) && self.offPoint.y<0;
     [path moveToPoint:CGPointMake(contentX, maxY-inset.bottomLeft)];
@@ -262,24 +262,24 @@ NS_INLINE void checkValid(UIRectCorner corner,CGPoint offPoint){
             corner ^= UIRectCornerBottomLeft;
         }
     }
-    [path addLineToPoint:CGPointMake(contentX, inset.topLeft+contentY)];//左线
+    [path addLineToPoint:CGPointMake(contentX, inset.topLeft+contentY)];//left edge
     
-    //绘制带角度的圆角
+    //draw corner radius
     //https://blog.csdn.net/zhanglizhi111/article/details/106875201/
-    //左
+    //topLeft
     [path moveToPoint:CGPointMake(contentX, inset.topLeft+contentY)];
     [path addArcWithCenter:CGPointMake(inset.topLeft+contentX, inset.topLeft+contentY) radius:inset.topLeft startAngle:1 * M_PI endAngle:1.5 * M_PI clockwise:YES];
-    //右
+    //topRight
     [path moveToPoint:CGPointMake(maxX-inset.topRight,contentY)];
     [path addArcWithCenter:CGPointMake(maxX - inset.topRight, inset.topRight+contentY) radius:inset.topRight startAngle:1.5 * M_PI endAngle:0 * M_PI clockwise:YES];
-    //右下
+    //bottomRight
     [path moveToPoint:CGPointMake(maxX, maxY-inset.bottomRight)];
     [path addArcWithCenter:CGPointMake(maxX-inset.bottomRight, maxY-inset.bottomRight)radius:inset.bottomRight startAngle:0 * M_PI endAngle:0.5 * M_PI clockwise:YES];
-    //左下
+    //bottomLeft
     [path moveToPoint:CGPointMake(inset.bottomLeft+contentX, maxY)];
     [path addArcWithCenter:CGPointMake(inset.bottomLeft+contentX, maxY-inset.bottomLeft) radius:inset.bottomLeft startAngle:0.5 * M_PI endAngle:1 * M_PI clockwise:YES];
     
-    //绘制
+    //set color
     [self.lineColor set];
     [path stroke];
     [self.fillColor set];
