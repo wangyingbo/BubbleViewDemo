@@ -28,7 +28,7 @@ NS_INLINE WBRectCornerRadius WBRectCornerRadiusMake(CGFloat topLeft,CGFloat topR
 }
 
 @interface BubbleView : UIControl
-/**effective area. use it to add subviews */
+/**effective area. use it to add subviews if you want to. */
 @property (nonatomic, strong, readonly) UIView *contentView;
 /**path line width. default is 1.f*/
 @property (nonatomic, assign) CGFloat lineWidth;
