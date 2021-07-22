@@ -20,7 +20,7 @@
 - (instancetype)initWithOrigin:(CGPoint)origin
 {
     if (self = [super initWithFrame:CGRectMake(origin.x, origin.y, 0, 0)]) {
-        [self addSubview:self.contentView];
+        [self initUI];
     }
     return self;
 }
@@ -28,7 +28,7 @@
 - (instancetype)initWithFrame:(CGRect)frame
 {
     if (self = [super initWithFrame:frame]) {
-        [self addSubview:self.contentView];
+        [self initUI];
     }
     return self;
 }
@@ -36,8 +36,13 @@
 - (void)layoutSubviews
 {
     [super layoutSubviews];
-    
-    self.contentView.frame = [self _layoutContentViewFrame];
+}
+
+#pragma mark - init UI
+- (void)initUI
+{
+    [self addSubview:self.contentView];
+    [self.layer addSublayer:self.bubbleLayer];
 }
 
 #pragma mark - lazy
@@ -90,13 +95,11 @@ NS_INLINE void checkValid(UIRectCorner corner,CGPoint offPoint){
 - (void)setCorner:(UIRectCorner)corner
 {
     _corner = corner;
-    checkValid(corner, self.offPoint);
 }
 
 - (void)setOffPoint:(CGPoint)offPoint
 {
     _offPoint = offPoint;
-    checkValid(self.corner, offPoint);
 }
 
 #pragma mark - private
@@ -154,9 +157,6 @@ NS_INLINE void checkValid(UIRectCorner corner,CGPoint offPoint){
 
 - (void)_drawPath
 {
-    CAShapeLayer *shape = self.bubbleLayer;
-    shape.strokeColor = self.lineColor.CGColor;
-    shape.fillColor = (self.fillColor ?: self.backgroundColor).CGColor;
     UIBezierPath *path = [UIBezierPath bezierPath];
     path.lineWidth=self.lineWidth;//线宽
     path.lineCapStyle = kCGLineCapRound;
@@ -280,18 +280,34 @@ NS_INLINE void checkValid(UIRectCorner corner,CGPoint offPoint){
     [path addArcWithCenter:CGPointMake(inset.bottomLeft+contentX, maxY-inset.bottomLeft) radius:inset.bottomLeft startAngle:0.5 * M_PI endAngle:1 * M_PI clockwise:YES];
     
     //绘制
-    shape.path= path.CGPath;
+    [self.lineColor set];
+    [path stroke];
+    [self.fillColor set];
+    [path fill];
+    CAShapeLayer *shape = self.bubbleLayer;
+    shape.strokeColor = self.lineColor.CGColor;
+    shape.fillColor = (self.fillColor ?: self.backgroundColor).CGColor;
     shape.lineWidth = self.lineWidth;
-    [self.layer addSublayer:shape];
-
+    shape.path= path.CGPath;
 }
 
 #pragma mark - public
+
 - (void)draw {
+    //check the corner and offPoint is valid.
+    checkValid(self.corner, self.offPoint);
+    
+    //set contentView frame and corner
+    self.contentView.frame = [self _layoutContentViewFrame];
+    [self.contentView rectCornerRadius:self.cornerRadius];
+    
+    //set bubbleLayer frame
     CGSize size = [self _layoutSize];
     CGRect rect = CGRectMake(0, 0, size.width, size.height);
     self.bubbleLayer.frame = rect;
     self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, size.width, size.height);
+    
+    //draw again
     [self _drawPath];
 }
 
@@ -304,5 +320,24 @@ NS_INLINE void checkValid(UIRectCorner corner,CGPoint offPoint){
 }
 */
 
+
+@end
+
+@implementation UIView (Corner)
+
+- (void)rectCornerRadius:(WBRectCornerRadius)cornerRadius
+{
+    UIBezierPath *path = [UIBezierPath bezierPath];
+    WBRectCornerRadius inset = cornerRadius;
+    CGFloat width = CGRectGetWidth(self.frame);
+    CGFloat height = CGRectGetHeight(self.frame);
+    [path addArcWithCenter:CGPointMake(inset.topLeft, inset.topLeft) radius:inset.topLeft startAngle:1 * M_PI endAngle:1.5 * M_PI clockwise:YES];
+    [path addArcWithCenter:CGPointMake(width - inset.topRight, inset.topRight) radius:inset.topRight startAngle:1.5 * M_PI endAngle:0 * M_PI clockwise:YES];
+    [path addArcWithCenter:CGPointMake(width-inset.bottomRight, height-inset.bottomRight)radius:inset.bottomRight startAngle:0 * M_PI endAngle:0.5 * M_PI clockwise:YES];
+    [path addArcWithCenter:CGPointMake(inset.bottomLeft, height-inset.bottomLeft) radius:inset.bottomLeft startAngle:0.5 * M_PI endAngle:1 * M_PI clockwise:YES];
+    CAShapeLayer *shapeLayer = [CAShapeLayer layer];
+    shapeLayer.path = path.CGPath;
+    self.layer.mask = shapeLayer;
+}
 
 @end

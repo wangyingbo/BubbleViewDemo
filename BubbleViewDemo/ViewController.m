@@ -17,23 +17,21 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = [UIColor blackColor];
     
     BubbleView *bubble = [[BubbleView alloc] initWithOrigin:CGPointMake(100.f, 200.f)];
     bubble.contentSize = CGSizeMake(150, 80.f);
-    bubble.corner = UIRectCornerBottomRight;
-    bubble.offPoint = CGPointMake(30, -30);
-    bubble.fillColor = [UIColor clearColor];
+    bubble.corner = UIRectCornerTopRight;
+    bubble.offPoint = CGPointMake(30, 30);
+    bubble.fillColor = [UIColor whiteColor];
     bubble.lineColor = [UIColor purpleColor];
-    bubble.lineWidth = 1.f;
-    bubble.cornerRadius = WBRectCornerRadiusMake(5, 5, 5, 5);
+    bubble.lineWidth = 5.f;
+    bubble.cornerRadius = WBRectCornerRadiusMake(15, 15, 15, 15);
     [self.view addSubview:bubble];
     
-    bubble.backgroundColor = [UIColor greenColor];
-    bubble.contentView.backgroundColor = [UIColor clearColor];
-    
+    bubble.contentView.backgroundColor = [UIColor whiteColor];
     
     [bubble draw];
-    
 }
 
 

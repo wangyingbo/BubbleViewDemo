@@ -27,6 +27,11 @@ NS_INLINE WBRectCornerRadius WBRectCornerRadiusMake(CGFloat topLeft,CGFloat topR
     return cornerRadius;
 }
 
+@interface UIView (Corner)
+/**set view corner radius for each corner*/
+- (void)rectCornerRadius:(WBRectCornerRadius)cornerRadius;
+@end
+
 @interface BubbleView : UIControl
 /**effective area. use it to add subviews if you want to. */
 @property (nonatomic, strong, readonly) UIView *contentView;
