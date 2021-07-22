@@ -9,14 +9,13 @@ use it like this:
     bubble.contentSize = CGSizeMake(150, 80.f);
     bubble.corner = UIRectCornerBottomRight;
     bubble.offPoint = CGPointMake(30, -30);
-    bubble.fillColor = [UIColor clearColor];
+    bubble.fillColor = [UIColor whiteColor];
     bubble.lineColor = [UIColor purpleColor];
     bubble.lineWidth = 1.f;
     bubble.cornerRadius = WBRectCornerRadiusMake(5, 5, 5, 5);
     [self.view addSubview:bubble];
     
-    bubble.backgroundColor = [UIColor greenColor];
-    bubble.contentView.backgroundColor = [UIColor clearColor];
+    bubble.backgroundColor = [UIColor whiteColor];
     
     bubble draw];
 
