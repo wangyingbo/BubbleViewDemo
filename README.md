@@ -23,6 +23,12 @@ use it like this:
 
 ### eg:
 
+![gif](https://gitee.com/wangyingbo/PrivateImages/raw/master/2020//1.gif)
+
+
+
+<!--
+
 ![top](https://gitee.com/wangyingbo/PrivateImages/raw/master/2021//20210722123636.png)
 
 ![right](https://gitee.com/wangyingbo/PrivateImages/raw/master/2021//20210722123935.png)
@@ -31,4 +37,5 @@ use it like this:
 
 ![left](https://gitee.com/wangyingbo/PrivateImages/raw/master/2021//20210722123701.png)
 
+-->
 
