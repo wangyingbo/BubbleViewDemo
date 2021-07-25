@@ -47,30 +47,50 @@ NS_INLINE WBRectCornerRadius WBRectCornerRadiusMake(CGFloat topLeft,CGFloat topR
 @property (nonatomic, assign) CGSize contentSize;
 /**the angle width. default is 15.f*/
 @property (nonatomic, assign) CGFloat angleWidth;
+/**curve angle enable*/
+@property (nonatomic, assign) BOOL angleCurve;
+/**curve control point offset*/
+@property (nonatomic, assign) CGFloat curveCotrol;
 /**
- rely on which corner to display angle
+ rely on which corner to display angle. the corner and edge are mutually exclusive.
  eg:
- ------------------------------------------------
-        corner                 offPoint
- ------------------------------------------------
- UIRectCornerTopLeft    (-30, 30) or (30, -30)
- ------------------------------------------------
- UIRectCornerTopRight   (-30, -30) or (30, 30)
- ------------------------------------------------
- UIRectCornerBottomRight  (30, -30) or (-30, 30)
- ------------------------------------------------
- UIRectCornerBottomLeft (30, 30) or (-30, -30)
- ------------------------------------------------
+ ----------------------------------------------------
+        corner                      offPoint
+ ----------------------------------------------------
+ UIRectCornerTopLeft        (-30, 30) or (30, -30)
+ ----------------------------------------------------
+ UIRectCornerTopRight       (-30, -30) or (30, 30)
+ ----------------------------------------------------
+ UIRectCornerBottomRight    (30, -30) or (-30, 30)
+ ----------------------------------------------------
+ UIRectCornerBottomLeft     (30, 30) or (-30, -30)
+ ----------------------------------------------------
  */
 @property (nonatomic, assign) UIRectCorner corner;
+/**
+ rely on which edge to display angle. the edge and corner are mutually exclusive.
+ eg:
+ ----------------------------------------------------
+        edge                            offPoint
+ ----------------------------------------------------
+ UIRectEdgeTop (origin:topLeft)         (30, -30)
+ ----------------------------------------------------
+ UIRectEdgeRight (origin:topRight)      (30, 30)
+ ----------------------------------------------------
+ UIRectEdgeBottom (origin:bottomLeft)   (30, 30)
+ ----------------------------------------------------
+ UIRectEdgeLeft (origin:topLeft)        (-30, 30)
+ ----------------------------------------------------
+ */
+@property (nonatomic, assign) UIRectEdge edge;
 /**
  the off point to corner.it considers the corner you choose as the origin point to display.
  
    /\
- 1---->2
+ 1----→2
+ ↑     ↓
  |     |
- |     |
- 4<----3
+ 4←----3
  
  the path display order is 1--->2--->3--->4
  */
