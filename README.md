@@ -15,8 +15,6 @@ use it like this:
     bubble.cornerRadius = WBRectCornerRadiusMake(5, 5, 5, 5);
     [self.view addSubview:bubble];
     
-    bubble.backgroundColor = [UIColor whiteColor];
-    
     bubble draw];
 
 ```
