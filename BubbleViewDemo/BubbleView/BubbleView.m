@@ -17,6 +17,7 @@ typedef NS_OPTIONS(NSUInteger, CurveControlDirection) {
 @interface BubbleView ()
 @property (nonatomic, strong) CAShapeLayer *bubbleLayer;
 @property (nonatomic, strong) UIView *contentView;
+@property (nonatomic, assign) CGPoint angleMiddlePoint;
 @end
 
 
@@ -108,6 +109,12 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
     _offPoint = offPoint;
 }
 
+- (void)setFillColor:(UIColor *)fillColor
+{
+    _fillColor = fillColor;
+    self.contentView.backgroundColor = fillColor;
+}
+
 - (void)setEdge:(UIRectEdge)edge
 {
     _edge = edge;
@@ -192,20 +199,19 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
     CGFloat contentY = CGRectGetMinY(contentFrame);
 
     //draw edge, leave the corner space
-    WBRectCornerRadius inset = self.cornerRadius;
+    WBRectCornerRadius radius = self.cornerRadius;
     UIRectCorner corner = self.corner;
     CGFloat curveCotrol = ABS(self.curveCotrol);
     BOOL angleCurve = self.angleCurve;
     //angle start point
-    CGPoint angleStartPoint = CGPointZero;
+    //CGPoint angleStartPoint = CGPointZero;
     //angle middle point
-    CGPoint angleMidPoint = CGPointZero;
+    //CGPoint angleMidPoint = CGPointZero;
     //angle end point
-    CGPoint angleEndPoint = CGPointZero;
+    //CGPoint angleEndPoint = CGPointZero;
     
     /*****top edge*****/
     
-    //topLeft
     [path moveToPoint:CGPointMake(self.cornerRadius.topLeft+contentX,contentY)];
     BOOL topLineLeft = (corner&UIRectCornerTopLeft) && self.offPoint.x>0;
     BOOL topLineRight = (corner&UIRectCornerTopRight) && self.offPoint.x<0;
@@ -214,9 +220,9 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
         if (topLineLeft) {
             startPointX = contentX;
             startPointX = startPointX + self.offPoint.x - self.angleWidth/2;
-            angleStartPoint = CGPointMake(startPointX, contentY);
-            angleMidPoint = CGPointMake(startPointX+self.angleWidth/2, contentY+self.offPoint.y);
-            angleEndPoint = CGPointMake(startPointX+self.angleWidth, contentY);
+            CGPoint angleStartPoint = CGPointMake(startPointX, contentY);
+            CGPoint angleMidPoint = CGPointMake(startPointX+self.angleWidth/2, contentY+self.offPoint.y);
+            CGPoint angleEndPoint = CGPointMake(startPointX+self.angleWidth, contentY);
             [path addLineToPoint:angleStartPoint];
             if (self.angleCurve) {
                 angleMidPoint.x = angleStartPoint.x;
@@ -226,13 +232,14 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
                 [path addLineToPoint:angleMidPoint];
                 [path addLineToPoint:angleEndPoint];
             }
+            self.angleMiddlePoint = angleMidPoint;
             corner ^= UIRectCornerTopLeft;
         }else if (topLineRight) {
             startPointX = maxX;
             startPointX = startPointX + self.offPoint.x - self.angleWidth/2;
-            angleStartPoint = CGPointMake(startPointX, contentY);
-            angleMidPoint = CGPointMake(startPointX+self.angleWidth/2, contentY+self.offPoint.y);
-            angleEndPoint = CGPointMake(startPointX+self.angleWidth, contentY);
+            CGPoint angleStartPoint = CGPointMake(startPointX, contentY);
+            CGPoint angleMidPoint = CGPointMake(startPointX+self.angleWidth/2, contentY+self.offPoint.y);
+            CGPoint angleEndPoint = CGPointMake(startPointX+self.angleWidth, contentY);
             [path addLineToPoint:angleStartPoint];
             if (self.angleCurve) {
                 angleMidPoint.x = angleEndPoint.x;
@@ -242,15 +249,15 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
                 [path addLineToPoint:angleMidPoint];
                 [path addLineToPoint:angleEndPoint];
             }
+            self.angleMiddlePoint = angleMidPoint;
             corner ^= UIRectCornerTopRight;
         }
     }
-    [path addLineToPoint:CGPointMake(maxX-inset.topRight,contentY)];// top edge
+    [path addLineToPoint:CGPointMake(maxX-radius.topRight,contentY)];// top edge
     
     /*****right edge*****/
     
-    //topRight
-    [path moveToPoint:CGPointMake(maxX, inset.topRight+contentY)];
+    [path moveToPoint:CGPointMake(maxX, radius.topRight+contentY)];
     BOOL rightLineTop = (corner&UIRectCornerTopRight) && self.offPoint.y>0;
     BOOL rightLineBottom = (corner&UIRectCornerBottomRight) && self.offPoint.y<0;
     if (rightLineTop || rightLineBottom) {
@@ -258,9 +265,9 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
         if (rightLineTop) {
             startPointY = contentY;
             startPointY = startPointY + self.offPoint.y - self.angleWidth/2;
-            angleStartPoint = CGPointMake(maxX, startPointY);
-            angleMidPoint = CGPointMake(maxX+self.offPoint.x, startPointY+self.angleWidth/2);
-            angleEndPoint = CGPointMake(maxX, startPointY+self.angleWidth);
+            CGPoint angleStartPoint = CGPointMake(maxX, startPointY);
+            CGPoint angleMidPoint = CGPointMake(maxX+self.offPoint.x, startPointY+self.angleWidth/2);
+            CGPoint angleEndPoint = CGPointMake(maxX, startPointY+self.angleWidth);
             [path addLineToPoint:angleStartPoint];
             if (angleCurve) {
                 angleMidPoint.y = angleStartPoint.y;
@@ -270,13 +277,14 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
                 [path addLineToPoint:angleMidPoint];
                 [path addLineToPoint:angleEndPoint];
             }
+            self.angleMiddlePoint = angleMidPoint;
             corner ^= UIRectCornerTopRight;
         }else if (rightLineBottom) {
             startPointY = maxY;
             startPointY = startPointY + self.offPoint.y - self.angleWidth/2;
-            angleStartPoint = CGPointMake(maxX, startPointY);
-            angleMidPoint = CGPointMake(maxX+self.offPoint.x, startPointY+self.angleWidth/2);
-            angleEndPoint = CGPointMake(maxX, startPointY+self.angleWidth);
+            CGPoint angleStartPoint = CGPointMake(maxX, startPointY);
+            CGPoint angleMidPoint = CGPointMake(maxX+self.offPoint.x, startPointY+self.angleWidth/2);
+            CGPoint angleEndPoint = CGPointMake(maxX, startPointY+self.angleWidth);
             [path addLineToPoint:angleStartPoint];
             if (self.angleCurve) {
                 angleMidPoint.y = angleEndPoint.y;
@@ -286,15 +294,15 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
                 [path addLineToPoint:angleMidPoint];
                 [path addLineToPoint:angleEndPoint];
             }
+            self.angleMiddlePoint = angleMidPoint;
             corner ^= UIRectCornerBottomRight;
         }
     }
-    [path addLineToPoint:CGPointMake(maxX, maxY-inset.bottomRight)];//right edge
+    [path addLineToPoint:CGPointMake(maxX, maxY-radius.bottomRight)];//right edge
     
     /*****bottom edge*****/
     
-    //bottomRight
-    [path moveToPoint:CGPointMake(maxX-inset.bottomRight, maxY)];
+    [path moveToPoint:CGPointMake(maxX-radius.bottomRight, maxY)];
     BOOL bottomLineLeft = (corner&UIRectCornerBottomLeft) && self.offPoint.x>0;
     BOOL bottomLineRight = (corner&UIRectCornerBottomRight) && self.offPoint.x<0;
     if (bottomLineLeft || bottomLineRight) {
@@ -302,9 +310,9 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
         if (bottomLineLeft) {
             startPointX = contentX;
             startPointX = startPointX + self.offPoint.x + self.angleWidth;
-            angleStartPoint = CGPointMake(startPointX, maxY);
-            angleMidPoint = CGPointMake(startPointX - self.angleWidth/2, maxY+self.offPoint.y);
-            angleEndPoint = CGPointMake(startPointX - self.angleWidth, maxY);
+            CGPoint angleStartPoint = CGPointMake(startPointX, maxY);
+            CGPoint angleMidPoint = CGPointMake(startPointX - self.angleWidth/2, maxY+self.offPoint.y);
+            CGPoint angleEndPoint = CGPointMake(startPointX - self.angleWidth, maxY);
             [path addLineToPoint:angleStartPoint];
             if (self.angleCurve) {
                 angleMidPoint.x = angleEndPoint.x;
@@ -314,13 +322,14 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
                 [path addLineToPoint:angleMidPoint];
                 [path addLineToPoint:angleEndPoint];
             }
+            self.angleMiddlePoint = angleMidPoint;
             corner ^= UIRectCornerBottomLeft;
         }else if (bottomLineRight) {
             startPointX = maxX;
             startPointX = startPointX + self.offPoint.x;
-            angleStartPoint = CGPointMake(startPointX, maxY);
-            angleMidPoint = CGPointMake(startPointX - self.angleWidth/2, maxY+self.offPoint.y);
-            angleEndPoint = CGPointMake(startPointX - self.angleWidth, maxY);
+            CGPoint angleStartPoint = CGPointMake(startPointX, maxY);
+            CGPoint angleMidPoint = CGPointMake(startPointX - self.angleWidth/2, maxY+self.offPoint.y);
+            CGPoint angleEndPoint = CGPointMake(startPointX - self.angleWidth, maxY);
             [path addLineToPoint:angleStartPoint];
             if (self.angleCurve) {
                 angleMidPoint.x = angleStartPoint.x;
@@ -330,25 +339,25 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
                 [path addLineToPoint:angleMidPoint];
                 [path addLineToPoint:angleEndPoint];
             }
+            self.angleMiddlePoint = angleMidPoint;
             corner ^= UIRectCornerBottomRight;
         }
     }
-    [path addLineToPoint:CGPointMake(inset.bottomLeft+contentX, maxY)];//bottom edge
+    [path addLineToPoint:CGPointMake(radius.bottomLeft+contentX, maxY)];//bottom edge
     
     /*****left edge*****/
     
-    //bottomLeft
     BOOL leftLineTop = (corner&UIRectCornerTopLeft) && self.offPoint.y>0;
     BOOL leftLineBottom = (corner&UIRectCornerBottomLeft) && self.offPoint.y<0;
-    [path moveToPoint:CGPointMake(contentX, maxY-inset.bottomLeft)];
+    [path moveToPoint:CGPointMake(contentX, maxY-radius.bottomLeft)];
     if (leftLineTop || leftLineBottom) {
         CGFloat startPointY = 0;
         if (leftLineTop) {
             startPointY = contentY;
             startPointY = startPointY + self.offPoint.y + self.angleWidth;
-            angleStartPoint = CGPointMake(contentX, startPointY);
-            angleMidPoint = CGPointMake(contentX+self.offPoint.x, startPointY - self.angleWidth/2);
-            angleEndPoint = CGPointMake(contentX, startPointY - self.angleWidth);
+            CGPoint angleStartPoint = CGPointMake(contentX, startPointY);
+            CGPoint angleMidPoint = CGPointMake(contentX+self.offPoint.x, startPointY - self.angleWidth/2);
+            CGPoint angleEndPoint = CGPointMake(contentX, startPointY - self.angleWidth);
             [path addLineToPoint:angleStartPoint];
             if (angleCurve) {
                 angleMidPoint.y = angleEndPoint.y;
@@ -358,13 +367,14 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
                 [path addLineToPoint:angleMidPoint];
                 [path addLineToPoint:angleEndPoint];
             }
+            self.angleMiddlePoint = angleMidPoint;
             corner ^= UIRectCornerTopLeft;
         }else if (leftLineBottom) {
             startPointY = maxY;
             startPointY = startPointY + self.offPoint.y;
-            angleStartPoint = CGPointMake(contentX, startPointY);
-            angleMidPoint = CGPointMake(contentX + self.offPoint.x, startPointY - self.angleWidth/2);
-            angleEndPoint = CGPointMake(contentX, startPointY - self.angleWidth);
+            CGPoint angleStartPoint = CGPointMake(contentX, startPointY);
+            CGPoint angleMidPoint = CGPointMake(contentX + self.offPoint.x, startPointY - self.angleWidth/2);
+            CGPoint angleEndPoint = CGPointMake(contentX, startPointY - self.angleWidth);
             [path addLineToPoint:angleStartPoint];
             if (self.angleCurve) {
                 angleMidPoint.y = angleStartPoint.y;
@@ -374,26 +384,27 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
                 [path addLineToPoint:angleMidPoint];
                 [path addLineToPoint:angleEndPoint];
             }
+            self.angleMiddlePoint = angleMidPoint;
             corner ^= UIRectCornerBottomLeft;
         }
     }
-    [path addLineToPoint:CGPointMake(contentX, inset.topLeft+contentY)];//left edge
+    [path addLineToPoint:CGPointMake(contentX, radius.topLeft+contentY)];//left edge
     
     //draw corner radius
     //https://blog.csdn.net/zhanglizhi111/article/details/106875201/
     
     //topLeft
-    [path moveToPoint:CGPointMake(contentX, inset.topLeft+contentY)];
-    [path addArcWithCenter:CGPointMake(inset.topLeft+contentX, inset.topLeft+contentY) radius:inset.topLeft startAngle:1 * M_PI endAngle:1.5 * M_PI clockwise:YES];
+    [path moveToPoint:CGPointMake(contentX, radius.topLeft+contentY)];
+    [path addArcWithCenter:CGPointMake(radius.topLeft+contentX, radius.topLeft+contentY) radius:radius.topLeft startAngle:1 * M_PI endAngle:1.5 * M_PI clockwise:YES];
     //topRight
-    [path moveToPoint:CGPointMake(maxX-inset.topRight,contentY)];
-    [path addArcWithCenter:CGPointMake(maxX - inset.topRight, inset.topRight+contentY) radius:inset.topRight startAngle:1.5 * M_PI endAngle:0 * M_PI clockwise:YES];
+    [path moveToPoint:CGPointMake(maxX-radius.topRight,contentY)];
+    [path addArcWithCenter:CGPointMake(maxX - radius.topRight, radius.topRight+contentY) radius:radius.topRight startAngle:1.5 * M_PI endAngle:0 * M_PI clockwise:YES];
     //bottomRight
-    [path moveToPoint:CGPointMake(maxX, maxY-inset.bottomRight)];
-    [path addArcWithCenter:CGPointMake(maxX-inset.bottomRight, maxY-inset.bottomRight)radius:inset.bottomRight startAngle:0 * M_PI endAngle:0.5 * M_PI clockwise:YES];
+    [path moveToPoint:CGPointMake(maxX, maxY-radius.bottomRight)];
+    [path addArcWithCenter:CGPointMake(maxX-radius.bottomRight, maxY-radius.bottomRight)radius:radius.bottomRight startAngle:0 * M_PI endAngle:0.5 * M_PI clockwise:YES];
     //bottomLeft
-    [path moveToPoint:CGPointMake(inset.bottomLeft+contentX, maxY)];
-    [path addArcWithCenter:CGPointMake(inset.bottomLeft+contentX, maxY-inset.bottomLeft) radius:inset.bottomLeft startAngle:0.5 * M_PI endAngle:1 * M_PI clockwise:YES];
+    [path moveToPoint:CGPointMake(radius.bottomLeft+contentX, maxY)];
+    [path addArcWithCenter:CGPointMake(radius.bottomLeft+contentX, maxY-radius.bottomLeft) radius:radius.bottomLeft startAngle:0.5 * M_PI endAngle:1 * M_PI clockwise:YES];
     
     //set color
     [self.lineColor set];
@@ -431,17 +442,20 @@ NS_INLINE CGPoint _controlPoint(CGPoint startPoint, CGPoint endPoint, CurveContr
     [self _drawPath];
 }
 
-
-/**
-// Only override drawRect: if you perform custom drawing.
-// An empty implementation adversely affects performance during animation.
-- (void)drawRect:(CGRect)rect {
-    // Drawing code
+- (void)angleAnchorToPoint:(CGPoint)anchorPoint
+{
+    if (!self.superview) { return; }
+    CGRect tempRect = self.frame;
+    CGPoint relativePoint = [self convertPoint:self.angleMiddlePoint toView:self.superview];
+    CGFloat offX = anchorPoint.x - relativePoint.x;
+    CGFloat offY = anchorPoint.y - relativePoint.y;
+    tempRect.origin.x += offX;
+    tempRect.origin.y += offY;
+    self.frame = tempRect;
 }
-*/
-
 
 @end
+
 
 @implementation UIView (Corner)
 
