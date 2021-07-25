@@ -53,6 +53,14 @@ NS_INLINE WBRectCornerRadius WBRectCornerRadiusMake(CGFloat topLeft,CGFloat topR
 @property (nonatomic, assign) CGFloat curveCotrol;
 /**
  rely on which corner to display angle. the corner and edge are mutually exclusive.
+ 
+ 1----→2
+ ↑     |
+ |     ↓
+ 4←----3
+ 
+ the path display order is 1--->2--->3--->4
+ 
  eg:
  ----------------------------------------------------
         corner                      offPoint
@@ -69,6 +77,14 @@ NS_INLINE WBRectCornerRadius WBRectCornerRadiusMake(CGFloat topLeft,CGFloat topR
 @property (nonatomic, assign) UIRectCorner corner;
 /**
  rely on which edge to display angle. the edge and corner are mutually exclusive.
+ 
+ 1----→2
+ |     |
+ ↓     ↓
+ 4----→3
+ 
+ the path display order is 1--->2；1--->4；2--->3；4--->3.
+ 
  eg:
  ----------------------------------------------------
         edge                            offPoint
@@ -84,15 +100,7 @@ NS_INLINE WBRectCornerRadius WBRectCornerRadiusMake(CGFloat topLeft,CGFloat topR
  */
 @property (nonatomic, assign) UIRectEdge edge;
 /**
- the off point to corner.it considers the corner you choose as the origin point to display.
- 
-   /\
- 1----→2
- ↑     ↓
- |     |
- 4←----3
- 
- the path display order is 1--->2--->3--->4
+ the off point to corner.it considers the corner you choosed as the origin point to display.
  */
 @property (nonatomic, assign) CGPoint offPoint;
 
