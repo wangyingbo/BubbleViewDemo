@@ -74,6 +74,10 @@
     self.bubble.corner = UIRectCornerTopLeft;
     self.bubble.offPoint = CGPointMake(self.bubble.contentSize.width/2, -25.f);
     self.bubble.angleCurve = NO;
+    self.bubble.bubbleLayer.shadowColor = [UIColor purpleColor].CGColor;
+    self.bubble.bubbleLayer.shadowRadius = 4.f;
+    self.bubble.bubbleLayer.shadowOpacity = .25f;
+    self.bubble.bubbleLayer.shadowOffset = CGSizeMake(0.f, -2.f);
     [self.bubble draw];
     tipLabel.center = CGPointMake(CGRectGetWidth(self.bubble.contentView.frame)/2, CGRectGetHeight(self.bubble.contentView.frame)/2);
 }

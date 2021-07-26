@@ -33,6 +33,8 @@ NS_INLINE WBRectCornerRadius WBRectCornerRadiusMake(CGFloat topLeft,CGFloat topR
 @end
 
 @interface BubbleView : UIControl
+/**you can set bubble layer shadowColor etc. */
+@property (nonatomic, strong, readonly) CAShapeLayer *bubbleLayer;
 /**effective area. use it to add subviews if you want to. */
 @property (nonatomic, strong, readonly) UIView *contentView;
 /**path line width. default is 1.f*/
