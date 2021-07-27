@@ -117,7 +117,7 @@ NS_INLINE WBRectCornerRadius WBRectCornerRadiusMake(CGFloat topLeft,CGFloat topR
 /// the draw method will layout subviews, you could get the correct bubble's frame after call the draw method.
 - (void)draw;
 
-/**set the angle point to the anchor point*/
+/**set the angle point to the anchor point which is in the same superView.*/
 - (void)angleAnchorToPoint:(CGPoint)anchorPoint;
 
 @end
