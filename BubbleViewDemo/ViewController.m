@@ -25,12 +25,12 @@
 #pragma mark - bubble
 
 - (void)initBubble {
-    BubbleView *bubble = [[BubbleView alloc] initWithOrigin:CGPointMake(100.f, 200.f)];
+    BubbleView *bubble = [[BubbleView alloc] initWithAnchorPoint:CGPointMake([UIScreen mainScreen].bounds.size.width/2, 200.f)];
     bubble.contentSize = CGSizeMake(150.f, 80.f);
     bubble.corner = UIRectCornerBottomLeft;
     //corner和edge是互斥的，corner要比edge灵活。如果设置了corner就不要设置edge。反之亦然。
     //bubble.edge = UIRectEdgeBottom;
-    bubble.offPoint = CGPointMake(100.f, 15.f);
+    bubble.offPoint = CGPointMake(100.f, 20.f);
     bubble.fillColor = [UIColor whiteColor];
     bubble.lineColor = [UIColor purpleColor];
     bubble.lineWidth = 2.5f;
@@ -65,7 +65,8 @@
     tipLabel.textAlignment = NSTextAlignmentCenter;
     tipLabel.font = [UIFont systemFontOfSize:16.f];
     tipLabel.numberOfLines = 0;
-    tipLabel.text = @"this is a bubble tip, please try it! \n \n 这个一个可以指定尖角出现在任意边的任意位置的气泡view，试试吧!";
+    tipLabel.textColor = [UIColor darkTextColor];
+    tipLabel.text = @"this is a bubble tip, please try it! \n \n 一个可以指定尖角出现在任意边的任意位置的气泡view，尖角的位置和大小可以灵活定义，试试吧!";
     [self.bubble.contentView addSubview:tipLabel];
     [tipLabel sizeToFit];
     
@@ -79,6 +80,7 @@
     self.bubble.bubbleLayer.shadowOpacity = .25f;
     self.bubble.bubbleLayer.shadowOffset = CGSizeMake(0.f, -2.f);
     [self.bubble draw];
+    
     tipLabel.center = CGPointMake(CGRectGetWidth(self.bubble.contentView.frame)/2, CGRectGetHeight(self.bubble.contentView.frame)/2);
 }
 

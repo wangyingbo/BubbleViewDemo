@@ -29,7 +29,7 @@ NS_INLINE WBRectCornerRadius WBRectCornerRadiusMake(CGFloat topLeft,CGFloat topR
 
 @interface UIView (Corner)
 /**set view corner radius for each corner*/
-- (void)rectCornerRadius:(WBRectCornerRadius)cornerRadius;
+- (void)setRectCornerRadius:(WBRectCornerRadius)cornerRadius;
 @end
 
 @interface BubbleView : UIControl
@@ -109,9 +109,9 @@ NS_INLINE WBRectCornerRadius WBRectCornerRadiusMake(CGFloat topLeft,CGFloat topR
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
 
-/// the bubbleView's origin point.
-/// @param origin origin description
-- (instancetype)initWithOrigin:(CGPoint)origin;
+/// init with the anchor point of the angle.
+/// @param anchorPoint anchorPoint description
+- (instancetype)initWithAnchorPoint:(CGPoint)anchorPoint;
 
 /// should recall the method if one of the above properties is changed. 
 /// the draw method will layout subviews, you could get the correct bubble's frame after call the draw method.

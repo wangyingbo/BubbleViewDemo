@@ -5,17 +5,20 @@
 use it like this:
 
 ```
-    BubbleView *bubble = [[BubbleView alloc] initWithOrigin:CGPointMake(100.f, 200.f)];
-    bubble.contentSize = CGSizeMake(150, 80.f);
-    bubble.corner = UIRectCornerBottomRight;
-    bubble.offPoint = CGPointMake(30, -30);
-    bubble.fillColor = [UIColor whiteColor];
-    bubble.lineColor = [UIColor purpleColor];
-    bubble.lineWidth = 1.f;
-    bubble.cornerRadius = WBRectCornerRadiusMake(5, 5, 5, 5);
-    [self.view addSubview:bubble];
-    
-    bubble draw];
+BubbleView *bubble = [[BubbleView alloc] initWithAnchorPoint:CGPointMake([UIScreen mainScreen].bounds.size.width/2, 200.f)];
+bubble.contentSize = CGSizeMake(150.f, 80.f);
+bubble.corner = UIRectCornerBottomLeft;
+//corner和edge是互斥的，corner要比edge灵活。如果设置了corner就不要设置edge。反之亦然。
+//bubble.edge = UIRectEdgeBottom;
+bubble.offPoint = CGPointMake(100.f, 20.f);
+bubble.fillColor = [UIColor whiteColor];
+bubble.lineColor = [UIColor purpleColor];
+bubble.lineWidth = 2.5f;
+bubble.cornerRadius = WBRectCornerRadiusMake(15.f, 15.f, 15.f, 15.f);
+bubble.angleCurve = YES;
+bubble.curveCotrol = 5.f;
+[self.view addSubview:bubble];
+[bubble draw];
 
 ```
 

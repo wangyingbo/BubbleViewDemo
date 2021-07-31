@@ -11,19 +11,28 @@
 typedef NS_OPTIONS(NSUInteger, CurveControlDirection) {
     CurveControlDirectionX     = 1 << 0,
     CurveControlDirectionY     = 1 << 1,
-    CurveControlDirectionAll = ~0UL
+    CurveControlDirectionAll   = ~0UL
 };
 
 @interface BubbleView ()
 @property (nonatomic, strong) CAShapeLayer *bubbleLayer;
 @property (nonatomic, strong) UIView *contentView;
 @property (nonatomic, assign) CGPoint angleMiddlePoint;
+@property (nonatomic, assign) CGPoint anchorPoint;
 @end
 
 
 @implementation BubbleView
 
 #pragma mark - override
+- (instancetype)initWithAnchorPoint:(CGPoint)anchorPoint
+{
+    if (self = [self initWithOrigin:CGPointZero]) {
+        self.anchorPoint = anchorPoint;
+    }
+    return self;
+}
+
 - (instancetype)initWithOrigin:(CGPoint)origin
 {
     if (self = [super initWithFrame:CGRectMake(origin.x, origin.y, 0, 0)]) {
@@ -90,13 +99,13 @@ typedef NS_OPTIONS(NSUInteger, CurveControlDirection) {
 NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
     NSString *suffix = [NSString stringWithFormat:@" and its offPoint:%@ is invalid",NSStringFromCGPoint(offPoint)];
     NSString *topLeftError = [@"UIRectCornerTopLeft" stringByAppendingString:suffix];
-    NSCAssert(!((corner&UIRectCornerTopLeft) && offPoint.x<0 && offPoint.y<0), topLeftError);
+    NSCAssert(!((corner & UIRectCornerTopLeft) && offPoint.x<0 && offPoint.y<0), topLeftError);
     NSString *topRightError = [@"UIRectCornerTopRight" stringByAppendingString:suffix];
-    NSCAssert(!((corner&UIRectCornerTopRight) && offPoint.x>0 && offPoint.y<0), topRightError);
+    NSCAssert(!((corner & UIRectCornerTopRight) && offPoint.x>0 && offPoint.y<0), topRightError);
     NSString *bottomRightError = [@"UIRectCornerBottomRight" stringByAppendingString:suffix];
-    NSCAssert(!((corner&UIRectCornerBottomRight) && offPoint.x>0 && offPoint.y>0), bottomRightError);
+    NSCAssert(!((corner & UIRectCornerBottomRight) && offPoint.x>0 && offPoint.y>0), bottomRightError);
     NSString *bottomLeftError = [@"UIRectCornerBottomLeft" stringByAppendingString:suffix];
-    NSCAssert(!((corner&UIRectCornerBottomLeft) && offPoint.x<0 && offPoint.y>0), bottomLeftError);
+    NSCAssert(!((corner & UIRectCornerBottomLeft) && offPoint.x<0 && offPoint.y>0), bottomLeftError);
 }
 
 - (void)setCorner:(UIRectCorner)corner
@@ -118,16 +127,16 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
 - (void)setEdge:(UIRectEdge)edge
 {
     _edge = edge;
-    if (_edge&UIRectEdgeTop) {
+    if (_edge & UIRectEdgeTop) {
         self.corner |= UIRectCornerTopLeft;
     }
-    if (_edge&UIRectEdgeRight) {
+    if (_edge & UIRectEdgeRight) {
         self.corner |= UIRectCornerTopRight;
     }
-    if (_edge&UIRectEdgeBottom) {
+    if (_edge & UIRectEdgeBottom) {
         self.corner |= UIRectCornerBottomLeft;
     }
-    if (_edge&UIRectEdgeLeft) {
+    if (_edge & UIRectEdgeLeft) {
         self.corner |= UIRectCornerTopLeft;
     }
 }
@@ -188,7 +197,7 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
 - (void)_drawPath
 {
     UIBezierPath *path = [UIBezierPath bezierPath];
-    path.lineWidth=self.lineWidth;//线宽
+    path.lineWidth=self.lineWidth;
     path.lineCapStyle = kCGLineCapRound;
     path.lineJoinStyle = kCGLineJoinRound;
     
@@ -213,8 +222,8 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
     /*****top edge*****/
     
     [path moveToPoint:CGPointMake(self.cornerRadius.topLeft+contentX,contentY)];
-    BOOL topLineLeft = (corner&UIRectCornerTopLeft) && self.offPoint.x>0;
-    BOOL topLineRight = (corner&UIRectCornerTopRight) && self.offPoint.x<0;
+    BOOL topLineLeft = (corner & UIRectCornerTopLeft) && self.offPoint.x>0;
+    BOOL topLineRight = (corner & UIRectCornerTopRight) && self.offPoint.x<0;
     if (topLineLeft || topLineRight) {
         CGFloat startPointX = 0;
         if (topLineLeft) {
@@ -258,8 +267,8 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
     /*****right edge*****/
     
     [path moveToPoint:CGPointMake(maxX, radius.topRight+contentY)];
-    BOOL rightLineTop = (corner&UIRectCornerTopRight) && self.offPoint.y>0;
-    BOOL rightLineBottom = (corner&UIRectCornerBottomRight) && self.offPoint.y<0;
+    BOOL rightLineTop = (corner & UIRectCornerTopRight) && self.offPoint.y>0;
+    BOOL rightLineBottom = (corner & UIRectCornerBottomRight) && self.offPoint.y<0;
     if (rightLineTop || rightLineBottom) {
         CGFloat startPointY = 0;
         if (rightLineTop) {
@@ -303,8 +312,8 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
     /*****bottom edge*****/
     
     [path moveToPoint:CGPointMake(maxX-radius.bottomRight, maxY)];
-    BOOL bottomLineLeft = (corner&UIRectCornerBottomLeft) && self.offPoint.x>0;
-    BOOL bottomLineRight = (corner&UIRectCornerBottomRight) && self.offPoint.x<0;
+    BOOL bottomLineLeft = (corner & UIRectCornerBottomLeft) && self.offPoint.x>0;
+    BOOL bottomLineRight = (corner & UIRectCornerBottomRight) && self.offPoint.x<0;
     if (bottomLineLeft || bottomLineRight) {
         CGFloat startPointX = 0;
         if (bottomLineLeft) {
@@ -347,8 +356,8 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
     
     /*****left edge*****/
     
-    BOOL leftLineTop = (corner&UIRectCornerTopLeft) && self.offPoint.y>0;
-    BOOL leftLineBottom = (corner&UIRectCornerBottomLeft) && self.offPoint.y<0;
+    BOOL leftLineTop = (corner & UIRectCornerTopLeft) && self.offPoint.y>0;
+    BOOL leftLineBottom = (corner & UIRectCornerBottomLeft) && self.offPoint.y<0;
     [path moveToPoint:CGPointMake(contentX, maxY-radius.bottomLeft)];
     if (leftLineTop || leftLineBottom) {
         CGFloat startPointY = 0;
@@ -422,27 +431,7 @@ NS_INLINE CGPoint _controlPoint(CGPoint startPoint, CGPoint endPoint, CurveContr
     return CGPointMake((startPoint.x+endPoint.x)/2 + ((direction&CurveControlDirectionX)?curveControl:0), (startPoint.y+endPoint.y)/2 + ((direction&CurveControlDirectionY)?curveControl:0));
 };
 
-#pragma mark - public
-
-- (void)draw {
-    //check the corner and offPoint is valid.
-    _checkValid(self.corner, self.offPoint);
-    
-    //set contentView frame and corner
-    self.contentView.frame = [self _layoutContentViewFrame];
-    [self.contentView rectCornerRadius:self.cornerRadius];
-    
-    //set bubbleLayer frame
-    CGSize size = [self _layoutSize];
-    CGRect rect = CGRectMake(0, 0, size.width, size.height);
-    self.bubbleLayer.frame = rect;
-    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, size.width, size.height);
-    
-    //draw again
-    [self _drawPath];
-}
-
-- (void)angleAnchorToPoint:(CGPoint)anchorPoint
+- (void)_angleAnchorToPoint:(CGPoint)anchorPoint
 {
     if (!self.superview) { return; }
     CGRect tempRect = self.frame;
@@ -454,12 +443,41 @@ NS_INLINE CGPoint _controlPoint(CGPoint startPoint, CGPoint endPoint, CurveContr
     self.frame = tempRect;
 }
 
+#pragma mark - public
+
+- (void)draw {
+    //check the corner and offPoint is valid.
+    _checkValid(self.corner, self.offPoint);
+    
+    //set contentView frame and corner
+    self.contentView.frame = [self _layoutContentViewFrame];
+    [self.contentView setRectCornerRadius:self.cornerRadius];
+    
+    //set bubbleLayer frame
+    CGSize size = [self _layoutSize];
+    CGRect rect = CGRectMake(0, 0, size.width, size.height);
+    self.bubbleLayer.frame = rect;
+    self.frame = CGRectMake(self.frame.origin.x, self.frame.origin.y, size.width, size.height);
+    
+    //draw again
+    [self _drawPath];
+    
+    //set the angle point
+    [self _angleAnchorToPoint:self.anchorPoint];
+}
+
+- (void)angleAnchorToPoint:(CGPoint)anchorPoint
+{
+    self.anchorPoint = anchorPoint;
+    [self _angleAnchorToPoint:anchorPoint];
+}
+
 @end
 
 
 @implementation UIView (Corner)
 
-- (void)rectCornerRadius:(WBRectCornerRadius)cornerRadius
+- (void)setRectCornerRadius:(WBRectCornerRadius)cornerRadius
 {
     UIBezierPath *path = [UIBezierPath bezierPath];
     WBRectCornerRadius inset = cornerRadius;
