@@ -207,12 +207,6 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
     UIRectCorner corner = self.corner;
     CGFloat curveCotrol = ABS(self.curveCotrol);
     BOOL angleCurve = self.angleCurve;
-    //angle start point
-    //CGPoint angleStartPoint = CGPointZero;
-    //angle middle point
-    //CGPoint angleMidPoint = CGPointZero;
-    //angle end point
-    //CGPoint angleEndPoint = CGPointZero;
     
     /*****top edge*****/
     
@@ -417,13 +411,13 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
     [path fill];
     CAShapeLayer *shape = self.bubbleLayer;
     shape.strokeColor = self.lineColor.CGColor;
-    shape.fillColor = (self.fillColor ?: self.backgroundColor).CGColor;
+    shape.fillColor = (self.fillColor ? : self.backgroundColor).CGColor;
     shape.lineWidth = self.lineWidth;
     shape.path= path.CGPath;
 }
 
 NS_INLINE CGPoint _controlPoint(CGPoint startPoint, CGPoint endPoint, CurveControlDirection direction, CGFloat curveControl) {
-    return CGPointMake((startPoint.x+endPoint.x)/2 + ((direction&CurveControlDirectionX)?curveControl:0), (startPoint.y+endPoint.y)/2 + ((direction&CurveControlDirectionY)?curveControl:0));
+    return CGPointMake((startPoint.x + endPoint.x)/2 + ((direction & CurveControlDirectionX) ? curveControl : 0), (startPoint.y + endPoint.y)/2 + ((direction & CurveControlDirectionY) ? curveControl : 0));
 };
 
 - (void)_angleAnchorToPoint:(CGPoint)anchorPoint
