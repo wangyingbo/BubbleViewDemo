@@ -97,15 +97,10 @@ typedef NS_OPTIONS(NSUInteger, CurveControlDirection) {
 #pragma mark - setter
 
 NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
-    NSString *suffix = [NSString stringWithFormat:@" and its offPoint:%@ is invalid",NSStringFromCGPoint(offPoint)];
-    NSString *topLeftError = [@"UIRectCornerTopLeft" stringByAppendingString:suffix];
-    NSCAssert(!((corner & UIRectCornerTopLeft) && offPoint.x<0 && offPoint.y<0), topLeftError);
-    NSString *topRightError = [@"UIRectCornerTopRight" stringByAppendingString:suffix];
-    NSCAssert(!((corner & UIRectCornerTopRight) && offPoint.x>0 && offPoint.y<0), topRightError);
-    NSString *bottomRightError = [@"UIRectCornerBottomRight" stringByAppendingString:suffix];
-    NSCAssert(!((corner & UIRectCornerBottomRight) && offPoint.x>0 && offPoint.y>0), bottomRightError);
-    NSString *bottomLeftError = [@"UIRectCornerBottomLeft" stringByAppendingString:suffix];
-    NSCAssert(!((corner & UIRectCornerBottomLeft) && offPoint.x<0 && offPoint.y>0), bottomLeftError);
+    NSCAssert1(!((corner & UIRectCornerTopLeft) && offPoint.x<0 && offPoint.y<0), @"UIRectCornerTopLeft and its offPoint:%@ is invalid", NSStringFromCGPoint(offPoint));
+    NSCAssert1(!((corner & UIRectCornerTopRight) && offPoint.x>0 && offPoint.y<0), @"UIRectCornerTopRight and its offPoint:%@ is invalid", NSStringFromCGPoint(offPoint));
+    NSCAssert1(!((corner & UIRectCornerBottomRight) && offPoint.x>0 && offPoint.y>0), @"UIRectCornerBottomRight and its offPoint:%@ is invalid", NSStringFromCGPoint(offPoint));
+    NSCAssert1(!((corner & UIRectCornerBottomLeft) && offPoint.x<0 && offPoint.y>0), @"UIRectCornerBottomLeft and its offPoint:%@ is invalid", NSStringFromCGPoint(offPoint));
 }
 
 - (void)setCorner:(UIRectCorner)corner
