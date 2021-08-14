@@ -11,6 +11,7 @@
 typedef NS_OPTIONS(NSUInteger, CurveControlDirection) {
     CurveControlDirectionX     = 1 << 0,
     CurveControlDirectionY     = 1 << 1,
+    CurveControlDirectionX_Y   = 0xff,
     CurveControlDirectionAll   = ~0UL
 };
 
