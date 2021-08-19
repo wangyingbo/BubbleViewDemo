@@ -223,7 +223,7 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
             CGPoint angleMidPoint = CGPointMake(startPointX+self.angleWidth/2, contentY+self.offPoint.y);
             CGPoint angleEndPoint = CGPointMake(startPointX+self.angleWidth, contentY);
             [path addLineToPoint:angleStartPoint];
-            if (self.angleCurve) {
+            if (angleCurve) {
                 angleMidPoint.x = angleStartPoint.x;
                 [path addQuadCurveToPoint:angleMidPoint controlPoint:_controlPoint(angleStartPoint, angleMidPoint, CurveControlDirectionX, curveCotrol)];
                 [path addQuadCurveToPoint:angleEndPoint controlPoint:_controlPoint(angleMidPoint, angleEndPoint, CurveControlDirectionX, curveCotrol)];
@@ -240,7 +240,7 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
             CGPoint angleMidPoint = CGPointMake(startPointX+self.angleWidth/2, contentY+self.offPoint.y);
             CGPoint angleEndPoint = CGPointMake(startPointX+self.angleWidth, contentY);
             [path addLineToPoint:angleStartPoint];
-            if (self.angleCurve) {
+            if (angleCurve) {
                 angleMidPoint.x = angleEndPoint.x;
                 [path addQuadCurveToPoint:angleMidPoint controlPoint:_controlPoint(angleStartPoint, angleMidPoint, CurveControlDirectionX, -curveCotrol)];
                 [path addQuadCurveToPoint:angleEndPoint controlPoint:_controlPoint(angleMidPoint, angleEndPoint, CurveControlDirectionX, -curveCotrol)];
@@ -285,7 +285,7 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
             CGPoint angleMidPoint = CGPointMake(maxX+self.offPoint.x, startPointY+self.angleWidth/2);
             CGPoint angleEndPoint = CGPointMake(maxX, startPointY+self.angleWidth);
             [path addLineToPoint:angleStartPoint];
-            if (self.angleCurve) {
+            if (angleCurve) {
                 angleMidPoint.y = angleEndPoint.y;
                 [path addQuadCurveToPoint:angleMidPoint controlPoint:_controlPoint(angleStartPoint, angleMidPoint, CurveControlDirectionY, -curveCotrol)];
                 [path addQuadCurveToPoint:angleEndPoint controlPoint:_controlPoint(angleMidPoint, angleEndPoint, CurveControlDirectionY, -curveCotrol)];
@@ -313,7 +313,7 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
             CGPoint angleMidPoint = CGPointMake(startPointX - self.angleWidth/2, maxY+self.offPoint.y);
             CGPoint angleEndPoint = CGPointMake(startPointX - self.angleWidth, maxY);
             [path addLineToPoint:angleStartPoint];
-            if (self.angleCurve) {
+            if (angleCurve) {
                 angleMidPoint.x = angleEndPoint.x;
                 [path addQuadCurveToPoint:angleMidPoint controlPoint:_controlPoint(angleStartPoint, angleMidPoint, CurveControlDirectionX, curveCotrol)];
                 [path addQuadCurveToPoint:angleEndPoint controlPoint:_controlPoint(angleMidPoint, angleEndPoint, CurveControlDirectionX, curveCotrol)];
@@ -330,7 +330,7 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
             CGPoint angleMidPoint = CGPointMake(startPointX - self.angleWidth/2, maxY+self.offPoint.y);
             CGPoint angleEndPoint = CGPointMake(startPointX - self.angleWidth, maxY);
             [path addLineToPoint:angleStartPoint];
-            if (self.angleCurve) {
+            if (angleCurve) {
                 angleMidPoint.x = angleStartPoint.x;
                 [path addQuadCurveToPoint:angleMidPoint controlPoint:_controlPoint(angleStartPoint, angleMidPoint, CurveControlDirectionX, -curveCotrol)];
                 [path addQuadCurveToPoint:angleEndPoint controlPoint:_controlPoint(angleMidPoint, angleEndPoint, CurveControlDirectionX, -curveCotrol)];
@@ -375,7 +375,7 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
             CGPoint angleMidPoint = CGPointMake(contentX + self.offPoint.x, startPointY - self.angleWidth/2);
             CGPoint angleEndPoint = CGPointMake(contentX, startPointY - self.angleWidth);
             [path addLineToPoint:angleStartPoint];
-            if (self.angleCurve) {
+            if (angleCurve) {
                 angleMidPoint.y = angleStartPoint.y;
                 [path addQuadCurveToPoint:angleMidPoint controlPoint:_controlPoint(angleStartPoint, angleMidPoint, CurveControlDirectionY, -curveCotrol)];
                 [path addQuadCurveToPoint:angleEndPoint controlPoint:_controlPoint(angleMidPoint, angleEndPoint, CurveControlDirectionY, -curveCotrol)];
