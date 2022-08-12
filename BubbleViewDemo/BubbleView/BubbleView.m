@@ -59,7 +59,7 @@ typedef NS_OPTIONS(NSUInteger, CurveControlDirection) {
 - (void)initUI
 {
     [self addSubview:self.contentView];
-    [self.layer addSublayer:self.bubbleLayer];
+    [self.layer insertSublayer:self.bubbleLayer atIndex:0];
 }
 
 #pragma mark - lazy
@@ -117,7 +117,6 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
 - (void)setFillColor:(UIColor *)fillColor
 {
     _fillColor = fillColor;
-    self.contentView.backgroundColor = fillColor;
 }
 
 - (void)setEdge:(UIRectEdge)edge
@@ -209,6 +208,10 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
     CGFloat curveCotrol = ABS(self.curveCotrol);
     BOOL angleCurve = self.angleCurve;
     
+    //draw corner radius
+    //https://blog.csdn.net/zhanglizhi111/article/details/106875201/
+    
+    
     /*****top edge*****/
     
     [path moveToPoint:CGPointMake(self.cornerRadius.topLeft+contentX,contentY)];
@@ -253,10 +256,13 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
         }
     }
     [path addLineToPoint:CGPointMake(maxX-radius.topRight,contentY)];// top edge
+    //topRight
+    //[path moveToPoint:CGPointMake(maxX-radius.topRight,contentY)];
+    [path addArcWithCenter:CGPointMake(maxX - radius.topRight, radius.topRight+contentY) radius:radius.topRight startAngle:1.5 * M_PI endAngle:0 * M_PI clockwise:YES];
     
     /*****right edge*****/
     
-    [path moveToPoint:CGPointMake(maxX, radius.topRight+contentY)];
+    //[path moveToPoint:CGPointMake(maxX, radius.topRight+contentY)];
     BOOL rightLineTop = (corner & UIRectCornerTopRight) && self.offPoint.y>0;
     BOOL rightLineBottom = (corner & UIRectCornerBottomRight) && self.offPoint.y<0;
     if (rightLineTop || rightLineBottom) {
@@ -298,10 +304,13 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
         }
     }
     [path addLineToPoint:CGPointMake(maxX, maxY-radius.bottomRight)];//right edge
+    //bottomRight
+    //[path moveToPoint:CGPointMake(maxX, maxY-radius.bottomRight)];
+    [path addArcWithCenter:CGPointMake(maxX-radius.bottomRight, maxY-radius.bottomRight)radius:radius.bottomRight startAngle:0 * M_PI endAngle:0.5 * M_PI clockwise:YES];
     
     /*****bottom edge*****/
     
-    [path moveToPoint:CGPointMake(maxX-radius.bottomRight, maxY)];
+    //[path moveToPoint:CGPointMake(maxX-radius.bottomRight, maxY)];
     BOOL bottomLineLeft = (corner & UIRectCornerBottomLeft) && self.offPoint.x>0;
     BOOL bottomLineRight = (corner & UIRectCornerBottomRight) && self.offPoint.x<0;
     if (bottomLineLeft || bottomLineRight) {
@@ -343,12 +352,15 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
         }
     }
     [path addLineToPoint:CGPointMake(radius.bottomLeft+contentX, maxY)];//bottom edge
+    //bottomLeft
+    //[path moveToPoint:CGPointMake(radius.bottomLeft+contentX, maxY)];
+    [path addArcWithCenter:CGPointMake(radius.bottomLeft+contentX, maxY-radius.bottomLeft) radius:radius.bottomLeft startAngle:0.5 * M_PI endAngle:1 * M_PI clockwise:YES];
     
     /*****left edge*****/
     
+    //[path moveToPoint:CGPointMake(contentX, maxY-radius.bottomLeft)];
     BOOL leftLineTop = (corner & UIRectCornerTopLeft) && self.offPoint.y>0;
     BOOL leftLineBottom = (corner & UIRectCornerBottomLeft) && self.offPoint.y<0;
-    [path moveToPoint:CGPointMake(contentX, maxY-radius.bottomLeft)];
     if (leftLineTop || leftLineBottom) {
         CGFloat startPointY = 0;
         if (leftLineTop) {
@@ -388,22 +400,10 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
         }
     }
     [path addLineToPoint:CGPointMake(contentX, radius.topLeft+contentY)];//left edge
-    
-    //draw corner radius
-    //https://blog.csdn.net/zhanglizhi111/article/details/106875201/
-    
     //topLeft
-    [path moveToPoint:CGPointMake(contentX, radius.topLeft+contentY)];
+    //[path moveToPoint:CGPointMake(contentX, radius.topLeft+contentY)];
     [path addArcWithCenter:CGPointMake(radius.topLeft+contentX, radius.topLeft+contentY) radius:radius.topLeft startAngle:1 * M_PI endAngle:1.5 * M_PI clockwise:YES];
-    //topRight
-    [path moveToPoint:CGPointMake(maxX-radius.topRight,contentY)];
-    [path addArcWithCenter:CGPointMake(maxX - radius.topRight, radius.topRight+contentY) radius:radius.topRight startAngle:1.5 * M_PI endAngle:0 * M_PI clockwise:YES];
-    //bottomRight
-    [path moveToPoint:CGPointMake(maxX, maxY-radius.bottomRight)];
-    [path addArcWithCenter:CGPointMake(maxX-radius.bottomRight, maxY-radius.bottomRight)radius:radius.bottomRight startAngle:0 * M_PI endAngle:0.5 * M_PI clockwise:YES];
-    //bottomLeft
-    [path moveToPoint:CGPointMake(radius.bottomLeft+contentX, maxY)];
-    [path addArcWithCenter:CGPointMake(radius.bottomLeft+contentX, maxY-radius.bottomLeft) radius:radius.bottomLeft startAngle:0.5 * M_PI endAngle:1 * M_PI clockwise:YES];
+    
     
     //set color
     [self.lineColor set];

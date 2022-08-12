@@ -31,7 +31,7 @@
     //corner和edge是互斥的，corner要比edge灵活。如果设置了corner就不要设置edge。反之亦然。
     //bubble.edge = UIRectEdgeBottom;
     bubble.offPoint = CGPointMake(100.f, 20.f);
-    bubble.fillColor = [UIColor whiteColor];
+    bubble.fillColor = [UIColor yellowColor];
     bubble.lineColor = [UIColor purpleColor];
     bubble.lineWidth = 2.5f;
     bubble.cornerRadius = WBRectCornerRadiusMake(15.f, 15.f, 15.f, 15.f);
