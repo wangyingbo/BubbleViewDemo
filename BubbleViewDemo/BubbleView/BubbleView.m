@@ -317,7 +317,7 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
         CGFloat startPointX = 0;
         if (bottomLineLeft) {
             startPointX = contentX;
-            startPointX = startPointX + self.offPoint.x + self.angleWidth;
+            startPointX = startPointX + self.offPoint.x + self.angleWidth/2;
             CGPoint angleStartPoint = CGPointMake(startPointX, maxY);
             CGPoint angleMidPoint = CGPointMake(startPointX - self.angleWidth/2, maxY+self.offPoint.y);
             CGPoint angleEndPoint = CGPointMake(startPointX - self.angleWidth, maxY);
@@ -334,7 +334,7 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
             corner ^= UIRectCornerBottomLeft;
         }else if (bottomLineRight) {
             startPointX = maxX;
-            startPointX = startPointX + self.offPoint.x;
+            startPointX = startPointX + self.offPoint.x + self.angleWidth/2;
             CGPoint angleStartPoint = CGPointMake(startPointX, maxY);
             CGPoint angleMidPoint = CGPointMake(startPointX - self.angleWidth/2, maxY+self.offPoint.y);
             CGPoint angleEndPoint = CGPointMake(startPointX - self.angleWidth, maxY);
@@ -365,7 +365,7 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
         CGFloat startPointY = 0;
         if (leftLineTop) {
             startPointY = contentY;
-            startPointY = startPointY + self.offPoint.y + self.angleWidth;
+            startPointY = startPointY + self.offPoint.y + self.angleWidth/2;
             CGPoint angleStartPoint = CGPointMake(contentX, startPointY);
             CGPoint angleMidPoint = CGPointMake(contentX+self.offPoint.x, startPointY - self.angleWidth/2);
             CGPoint angleEndPoint = CGPointMake(contentX, startPointY - self.angleWidth);
@@ -382,7 +382,7 @@ NS_INLINE void _checkValid(UIRectCorner corner,CGPoint offPoint){
             corner ^= UIRectCornerTopLeft;
         }else if (leftLineBottom) {
             startPointY = maxY;
-            startPointY = startPointY + self.offPoint.y;
+            startPointY = startPointY + self.offPoint.y + self.angleWidth/2;
             CGPoint angleStartPoint = CGPointMake(contentX, startPointY);
             CGPoint angleMidPoint = CGPointMake(contentX + self.offPoint.x, startPointY - self.angleWidth/2);
             CGPoint angleEndPoint = CGPointMake(contentX, startPointY - self.angleWidth);
