@@ -8,8 +8,10 @@
 
 #import "ViewController.h"
 #import "BubbleView.h"
+#import "YBVCContentView.h"
 
 @interface ViewController ()
+@property (nonatomic, strong) YBVCContentView *contentView;
 @property (nonatomic, weak) BubbleView *bubble;
 @end
 
@@ -18,6 +20,10 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.view.backgroundColor = [UIColor whiteColor];
+    
+    YBVCContentView *contentView = [[YBVCContentView alloc] initWithFrame:self.view.bounds];
+    [self.view addSubview:contentView];
+    self.contentView = contentView;
     
     [self initBubble];
 }
@@ -37,16 +43,19 @@
     bubble.cornerRadius = WBRectCornerRadiusMake(15.f, 15.f, 15.f, 15.f);
     bubble.angleCurve = YES;
     bubble.curveCotrol = 5.f;
-    [self.view addSubview:bubble];
+    [self.contentView addSubview:bubble];
     [bubble draw];
     self.bubble = bubble;
+    
+    //bubble.contentView.userInteractionEnabled = NO;
+    [bubble addTarget:self action:@selector(bubbleAction:) forControlEvents:UIControlEventTouchUpInside];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1.5f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         //测试改变尖角指向的点
         [self anchorCenterPoint];
     });
     
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(3.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(5.f * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         //测试动态更改bubble的大小
         [self showTip];
         [self anchorCenterPoint];
@@ -82,7 +91,24 @@
     [self.bubble draw];
     
     tipLabel.center = CGPointMake(CGRectGetWidth(self.bubble.contentView.frame)/2, CGRectGetHeight(self.bubble.contentView.frame)/2);
+    
+    tipLabel.userInteractionEnabled = YES;//tipLabel添加手势
+    UITapGestureRecognizer *tapGes = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(labelGes:)];
+    [tipLabel addGestureRecognizer:tapGes];
 }
 
+#pragma mark - action
+
+/// 需要bubble.contentView.userInteractionEnabled = NO;
+/// @param sender sender description
+- (void)bubbleAction:(id)sender {
+    NSLog(@"....yb....");
+}
+
+/// 需要tipLabel.userInteractionEnabled = YES
+/// @param sender sender description
+- (void)labelGes:(id)sender {
+    NSLog(@"----label----");
+}
 
 @end

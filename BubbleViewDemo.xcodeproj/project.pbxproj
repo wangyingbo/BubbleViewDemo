@@ -17,6 +17,7 @@
 		0342E96126A71919000283CB /* BubbleViewDemoTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0342E96026A71919000283CB /* BubbleViewDemoTests.m */; };
 		0342E96C26A71919000283CB /* BubbleViewDemoUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = 0342E96B26A71919000283CB /* BubbleViewDemoUITests.m */; };
 		0342E97B26A71985000283CB /* BubbleView.m in Sources */ = {isa = PBXBuildFile; fileRef = 0342E97A26A71985000283CB /* BubbleView.m */; };
+		A4FD6FCA28AF5CCE00327197 /* YBVCContentView.m in Sources */ = {isa = PBXBuildFile; fileRef = A4FD6FC928AF5CCE00327197 /* YBVCContentView.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -57,6 +58,8 @@
 		0342E96D26A71919000283CB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0342E97926A71985000283CB /* BubbleView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BubbleView.h; sourceTree = "<group>"; };
 		0342E97A26A71985000283CB /* BubbleView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = BubbleView.m; sourceTree = "<group>"; };
+		A4FD6FC828AF5CCE00327197 /* YBVCContentView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = YBVCContentView.h; sourceTree = "<group>"; };
+		A4FD6FC928AF5CCE00327197 /* YBVCContentView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = YBVCContentView.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -114,6 +117,8 @@
 				0342E94826A71912000283CB /* SceneDelegate.m */,
 				0342E94A26A71912000283CB /* ViewController.h */,
 				0342E94B26A71912000283CB /* ViewController.m */,
+				A4FD6FC828AF5CCE00327197 /* YBVCContentView.h */,
+				A4FD6FC928AF5CCE00327197 /* YBVCContentView.m */,
 				0342E94D26A71912000283CB /* Main.storyboard */,
 				0342E95026A71918000283CB /* Assets.xcassets */,
 				0342E95226A71918000283CB /* LaunchScreen.storyboard */,
@@ -280,6 +285,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A4FD6FCA28AF5CCE00327197 /* YBVCContentView.m in Sources */,
 				0342E94C26A71912000283CB /* ViewController.m in Sources */,
 				0342E94626A71912000283CB /* AppDelegate.m in Sources */,
 				0342E97B26A71985000283CB /* BubbleView.m in Sources */,
